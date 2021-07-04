@@ -1,0 +1,2 @@
+rootProject.name='Five Projections of a Hemisphere'
+include ':app'
