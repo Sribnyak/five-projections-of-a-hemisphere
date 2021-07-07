@@ -21,11 +21,11 @@ class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         holder.addCallback(this)
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) { }
+    override fun surfaceCreated(holder: SurfaceHolder) { }
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) { }
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) { }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) { }
+    override fun surfaceDestroyed(holder: SurfaceHolder) { }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
