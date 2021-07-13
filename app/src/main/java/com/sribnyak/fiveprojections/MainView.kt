@@ -42,7 +42,7 @@ class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
     }
 
     private fun scale(point: Pair<Double, Double>): Pair<Float, Float> {
-        val factor = min(width, height) / 2.0 / 1.57
+        val factor = min(width, height) / 2.0 / 1.6
         return Pair(
             (width / 2.0 + point.first * factor).toFloat(),
             (height / 2.0 - point.second * factor).toFloat()

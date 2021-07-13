@@ -14,8 +14,8 @@ object Hemisphere {
             val b = j * PI / M
             Triple(-sin(a)*cos(b), cos(a), sin(a)*sin(b))
         }
-    } + Array(N-1) { i ->
-        val a = (i + 1) * PI / N
+    } + Array(N+1) { i ->
+        val a = i * PI / N
         Array(M+1) { j ->
             val b = j * PI / M
             Triple(-cos(a)*sin(b), -cos(b), sin(a)*sin(b))
