@@ -1,16 +1,17 @@
 package com.sribnyak.fiveprojections
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
-import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import kotlin.math.min
 
 class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
+    private val thread: WorkerThread
+    private val projector = Projector()
 
-    private val path = Path()
     private val paint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 3f
@@ -19,32 +20,55 @@ class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
 
     init {
         holder.addCallback(this)
+        thread = WorkerThread(holder, this)
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder) { }
+    override fun surfaceCreated(holder: SurfaceHolder) {
+        thread.setRunning(true)
+        thread.start()
+    }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) { }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder) { }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event != null) {
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    path.reset()
-                    path.moveTo(event.x, event.y)
-                }
-                MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> {
-                    path.lineTo(event.x, event.y)
-                }
-            }
-            val canvas = holder.lockCanvas()
-            canvas.drawColor(0xff000000.toInt())
-            canvas.drawPath(path, paint)
-            holder.unlockCanvasAndPost(canvas)
-            return true
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
+        thread.setRunning(false)
+        var retry = true
+        while (retry) {
+            try {
+                thread.join()
+                retry = false
+            } catch (e: Exception) { }
         }
-        return super.onTouchEvent(event)
+    }
+
+    private fun scale(point: Pair<Double, Double>): Pair<Float, Float> {
+        val factor = min(width, height) / 2.0 / 1.57
+        return Pair(
+            (width / 2.0 + point.first * factor).toFloat(),
+            (height / 2.0 - point.second * factor).toFloat()
+        )
+    }
+
+    fun update() {
+        projector.update()
+    }
+
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
+        canvas.drawColor(0xff000000.toInt())
+        for (line in Hemisphere.lines) {
+            var point = scale(projector.project(line[0]))
+            var x = point.first
+            var y = point.second
+            val path = Path()
+            path.moveTo(x, y)
+            for (i in 1 until line.size) {
+                point = scale(projector.project(line[i]))
+                x = point.first
+                y = point.second
+                path.lineTo(x, y)
+            }
+            canvas.drawPath(path, paint)
+        }
     }
 }
