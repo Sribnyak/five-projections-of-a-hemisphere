@@ -11,6 +11,8 @@ There are five beautiful ways to do this, **five projections of a hemisphere**, 
 Surprisingly, all these projections can be described by a **single formula** with one parameter!
 This allows us to **switch between** these five projections **smoothly** by changing the parameter. And this is what my application demonstrates.
 
+You can download the app [here](https://github.com/Sribnyak/five-projections-of-a-hemisphere/releases/download/v1.0/app-release.apk).
+
 
 # Пять проекций полусферы
 
@@ -24,3 +26,5 @@ This allows us to **switch between** these five projections **smoothly** by chan
 
 Что удивительно, все эти проекции могут быть описаны **одной формулой** с одним параметром!
 Это позволяет нам плавно переходить от одной из этих пяти проекций к другой, изменяя параметр. И это то, что демонстрируется в моём приложении.
+
+Скачать приложение можно [здесь](https://github.com/Sribnyak/five-projections-of-a-hemisphere/releases/download/v1.0/app-release.apk).
