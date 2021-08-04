@@ -9,7 +9,7 @@ import android.view.SurfaceView
 import kotlin.math.min
 
 class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
-    private val thread: WorkerThread
+    private lateinit var thread: WorkerThread
     private val projector = Projector()
 
     private val paint = Paint().apply {
@@ -20,10 +20,10 @@ class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
 
     init {
         holder.addCallback(this)
-        thread = WorkerThread(holder, this)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
+        thread = WorkerThread(holder, this)
         thread.setRunning(true)
         thread.start()
     }
