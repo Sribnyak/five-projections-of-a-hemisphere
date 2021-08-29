@@ -49,13 +49,7 @@ class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         )
     }
 
-    fun update() {
-        projector.update()
-    }
-
-    override fun draw(canvas: Canvas) {
-        super.draw(canvas)
-        canvas.drawColor(0xff000000.toInt())
+    private fun drawLines(canvas: Canvas) {
         for (line in Hemisphere.lines) {
             var point = scale(projector.project(line[0]))
             var x = point.first
@@ -70,5 +64,15 @@ class MainView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
             }
             canvas.drawPath(path, paint)
         }
+    }
+
+    fun update() {
+        projector.update()
+    }
+
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
+        canvas.drawColor(0xff000000.toInt())
+        drawLines(canvas)
     }
 }
